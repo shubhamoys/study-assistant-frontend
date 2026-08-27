@@ -4,6 +4,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
+import { CombinedGraphQLErrors } from "@apollo/client/errors";
 import { SetContextLink } from "@apollo/client/link/context";
 import { ErrorLink } from "@apollo/client/link/error";
 import { getAccessToken } from "@/lib/auth-token";
@@ -25,8 +26,16 @@ const authLink = new SetContextLink((prevContext) => {
 });
 
 const errorLink = new ErrorLink(({ error }) => {
-  if (process.env.NODE_ENV !== "production") {
-    console.error("[GraphQL error]", error);
+  // Expected business errors (invalid credentials, validation, conflicts)
+  // arrive as CombinedGraphQLErrors and are already surfaced to the user by
+  // whichever component's mutation/query `error` handled them — logging
+  // those here too just makes Next's dev overlay flag routine, handled
+  // errors as "Issues". Only log what the UI didn't already account for.
+  if (
+    process.env.NODE_ENV !== "production" &&
+    !CombinedGraphQLErrors.is(error)
+  ) {
+    console.error("[GraphQL network/protocol error]", error);
   }
 });
 

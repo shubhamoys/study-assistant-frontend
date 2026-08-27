@@ -34,6 +34,10 @@ const authSlice = createSlice({
       state.token = null;
       state.user = null;
     },
+    /** Populates `user` after rehydrating a token from localStorage (see AuthHydrator) — the token alone doesn't carry the user's details. */
+    setUser: (state, action: PayloadAction<AuthUser>) => {
+      state.user = action.payload;
+    },
     hydrateFromStorage: (
       state,
       action: PayloadAction<{ token: string | null }>,
@@ -44,6 +48,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setCredentials, clearCredentials, hydrateFromStorage } =
+export const { setCredentials, clearCredentials, setUser, hydrateFromStorage } =
   authSlice.actions;
 export default authSlice.reducer;
