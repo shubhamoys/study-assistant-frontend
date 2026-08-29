@@ -49,7 +49,8 @@ export function RegisterForm() {
       if (data) {
         dispatch(
           setCredentials({
-            token: data.register.accessToken,
+            accessToken: data.register.accessToken,
+            refreshToken: data.register.refreshToken,
             user: data.register.user,
           }),
         );

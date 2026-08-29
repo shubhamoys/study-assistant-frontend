@@ -8,6 +8,7 @@ import styles from "./main-nav.module.scss";
 const LINKS = [
   { href: "/store", label: "Store" },
   { href: "/library", label: "Library" },
+  { href: "/account", label: "Account" },
 ];
 
 /** Store/Library nav — only rendered once a user is signed in. */

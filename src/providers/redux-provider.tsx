@@ -10,7 +10,7 @@ export function ReduxProvider({ children }: { children: React.ReactNode }) {
   const [store] = useState(() => makeStore());
 
   useEffect(() => {
-    store.dispatch(hydrateFromStorage({ token: getAccessToken() }));
+    store.dispatch(hydrateFromStorage({ accessToken: getAccessToken() }));
   }, [store]);
 
   return <Provider store={store}>{children}</Provider>;

@@ -53,6 +53,10 @@ function Button({
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size, className }))}
+      // Same fdprocessedid browser-extension artifact as the shared Input
+      // primitive (see input.tsx) — password-manager extensions tag
+      // form-adjacent buttons (e.g. a submit button) too.
+      suppressHydrationWarning
       {...props}
     />
   )

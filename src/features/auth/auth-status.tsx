@@ -4,16 +4,23 @@ import Link from "next/link";
 import { useMutation } from "@apollo/client/react";
 import { Button } from "@/components/ui/button";
 import { useAppDispatch } from "@/lib/redux-hooks";
+import { getRefreshToken } from "@/lib/auth-token";
 import { clearCredentials } from "./auth-slice";
-import { LOGOUT_MUTATION, type LogoutMutationData } from "./graphql";
+import {
+  LOGOUT_MUTATION,
+  type LogoutMutationData,
+  type LogoutMutationVars,
+} from "./graphql";
 import { useAuth } from "./use-auth";
 import styles from "./auth-status.module.scss";
 
 export function AuthStatus() {
   const dispatch = useAppDispatch();
   const { user, hydrated, isAuthenticated } = useAuth();
-  const [logoutMutation, { loading }] =
-    useMutation<LogoutMutationData>(LOGOUT_MUTATION);
+  const [logoutMutation, { loading }] = useMutation<
+    LogoutMutationData,
+    LogoutMutationVars
+  >(LOGOUT_MUTATION);
 
   // Avoid a flash of the wrong state before localStorage has been read.
   if (!hydrated) {
@@ -34,9 +41,15 @@ export function AuthStatus() {
   }
 
   async function handleLogout() {
+    const refreshToken = getRefreshToken();
     try {
-      await logoutMutation();
+      if (refreshToken) {
+        await logoutMutation({ variables: { refreshToken } });
+      }
     } finally {
+      // Always clear local state, even if the server call failed (offline,
+      // token already expired, etc.) — the user's intent to log out locally
+      // still wins.
       dispatch(clearCredentials());
     }
   }

@@ -15,10 +15,10 @@ import { useAuth } from "@/features/auth/use-auth";
  */
 export function AuthHydrator({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
-  const { token, user, hydrated } = useAuth();
+  const { accessToken, user, hydrated } = useAuth();
 
   const { data, error } = useQuery<MeQueryData>(ME_QUERY, {
-    skip: !hydrated || !token || Boolean(user),
+    skip: !hydrated || !accessToken || Boolean(user),
   });
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import {
   clearCredentials,
   setCredentials,
 } from "@/features/auth/auth-slice";
-import { setAccessToken } from "./auth-token";
+import { setTokens } from "./auth-token";
 
 /**
  * Keeps localStorage in sync with the auth slice. Lives in middleware rather
@@ -15,9 +15,12 @@ export const authPersistenceMiddleware: Middleware =
     const result = next(action);
 
     if (setCredentials.match(action)) {
-      setAccessToken(action.payload.token);
+      setTokens({
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+      });
     } else if (clearCredentials.match(action)) {
-      setAccessToken(null);
+      setTokens(null);
     }
 
     return result;

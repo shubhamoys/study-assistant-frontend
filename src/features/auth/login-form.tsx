@@ -60,7 +60,8 @@ export function LoginForm() {
       if (data) {
         dispatch(
           setCredentials({
-            token: data.login.accessToken,
+            accessToken: data.login.accessToken,
+            refreshToken: data.login.refreshToken,
             user: data.login.user,
           }),
         );
@@ -114,9 +115,14 @@ export function LoginForm() {
         </div>
 
         <div className={styles.field}>
-          <label className={styles.fieldLabel} htmlFor="password">
-            Password
-          </label>
+          <div className={styles.fieldLabelRow}>
+            <label className={styles.fieldLabel} htmlFor="password">
+              Password
+            </label>
+            <Link href="/forgot-password" className={styles.inlineLink}>
+              Forgot password?
+            </Link>
+          </div>
           <PasswordInput
             id="password"
             autoComplete="current-password"
