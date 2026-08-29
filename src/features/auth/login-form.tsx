@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@apollo/client/react";
@@ -21,9 +21,25 @@ import { useRedirectIfAuthenticated } from "./use-redirect-if-authenticated";
 import styles from "./auth-form.module.scss";
 
 export function LoginForm() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
-  useRedirectIfAuthenticated();
+
+  const showAuthRequiredNotice = searchParams.get("reason") === "auth-required";
+  const redirectParam = searchParams.get("redirect");
+  // Only ever follow a same-origin path — never redirect off-site based on a
+  // query param (open-redirect guard), and never to "//host" either.
+  const redirectTo =
+    redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//")
+      ? redirectParam
+      : "/";
+
+  // Single source of truth for "where does a signed-in visitor on this page
+  // go": covers both a visitor who was already logged in when they landed
+  // here, and one who just submitted this form (dispatch below flips
+  // `isAuthenticated`, which this effect reacts to). Doing the post-login
+  // redirect here too (instead of also calling `router.push` in onSubmit)
+  // avoids a race between two separate navigations landing on different URLs.
+  useRedirectIfAuthenticated(redirectTo);
 
   const {
     register,
@@ -48,7 +64,6 @@ export function LoginForm() {
             user: data.login.user,
           }),
         );
-        router.push("/");
       }
     } catch {
       // Already captured in `error` above (useMutation's reactive state) and
@@ -132,6 +147,15 @@ export function LoginForm() {
           Create an account
         </Link>
       </p>
+
+      {showAuthRequiredNotice && (
+        <div className={styles.formNotice} role="status">
+          <span className={styles.formNoticeBadge} aria-hidden="true">
+            i
+          </span>
+          <span>You need to log in to continue.</span>
+        </div>
+      )}
     </div>
   );
 }

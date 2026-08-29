@@ -3,6 +3,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { AuthStatus } from "@/features/auth/auth-status";
+import { MainNav } from "@/components/main-nav";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const HEALTH_QUERY = gql`
@@ -25,7 +26,10 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center gap-12 px-6 py-16 sm:py-24">
       <header className="flex w-full max-w-3xl items-center justify-between gap-4">
-        <span className="stamp">Setup Preview</span>
+        <div className="flex items-center gap-4">
+          <span className="stamp">Setup Preview</span>
+          <MainNav />
+        </div>
         <div className="flex items-center gap-3">
           <AuthStatus />
           <ThemeToggle />
@@ -38,7 +42,7 @@ export default function Home() {
             AI Study Assistant
           </h1>
           <p className="text-base text-muted-foreground sm:text-lg">
-            Authentication is live. Store, Library, and Study are next.
+            Authentication, Store, and Library are live. Study is next.
           </p>
         </div>
 

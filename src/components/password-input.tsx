@@ -24,6 +24,10 @@ export function PasswordInput({ className, ...props }: PasswordInputProps) {
         onClick={() => setVisible((current) => !current)}
         aria-label={visible ? "Hide password" : "Show password"}
         aria-pressed={visible}
+        // Same fdprocessedid browser-extension artifact as the shared Input
+        // primitive (see input.tsx) — password-manager extensions tag this
+        // button too since it sits right next to the password field.
+        suppressHydrationWarning
       >
         {visible ? (
           <EyeSlash size={18} weight="bold" />
