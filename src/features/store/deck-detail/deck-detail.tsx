@@ -4,9 +4,11 @@ import Link from "next/link";
 import { useQuery } from "@apollo/client/react";
 import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header/site-header";
+import { StarRating } from "@/components/star-rating/star-rating";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
 import { AddToLibraryButton } from "@/features/library/add-to-library-button/add-to-library-button";
 import { MY_LIBRARY_QUERY, type MyLibraryQueryData } from "@/features/library/graphql";
+import { DeckReviews } from "../deck-reviews/deck-reviews";
 import { DECK_QUERY, type DeckQueryData, type DeckQueryVars } from "../graphql";
 import styles from "./deck-detail.module.scss";
 
@@ -62,6 +64,8 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
                 <p className={styles.description}>{data.deck.description}</p>
               )}
 
+              <p className={styles.author}>By {data.deck.authorDisplayName}</p>
+
               <dl className={styles.stats}>
                 <div className={styles.stat}>
                   <dt>Difficulty</dt>
@@ -72,12 +76,34 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
                   <dd>{data.deck.cardCount}</dd>
                 </div>
                 <div className={styles.stat}>
+                  <dt>Study time</dt>
+                  <dd>~{data.deck.estimatedStudyMinutes} min</dd>
+                </div>
+                <div className={styles.stat}>
                   <dt>Price</dt>
                   <dd>
                     {data.deck.isFree
                       ? "Free"
                       : `₹${(data.deck.price / 100).toFixed(2)}`}
                   </dd>
+                </div>
+                <div className={styles.stat}>
+                  <dt>Rating</dt>
+                  <dd>
+                    {data.deck.ratingCount > 0 ? (
+                      <StarRating
+                        value={data.deck.ratingAverage}
+                        count={data.deck.ratingCount}
+                        size={16}
+                      />
+                    ) : (
+                      "No ratings yet"
+                    )}
+                  </dd>
+                </div>
+                <div className={styles.stat}>
+                  <dt>Downloads</dt>
+                  <dd>{data.deck.downloadsCount}</dd>
                 </div>
               </dl>
 
@@ -94,6 +120,8 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
               </div>
             </article>
           )}
+
+          {data && <DeckReviews deckId={data.deck.id} />}
         </div>
       </div>
     </>

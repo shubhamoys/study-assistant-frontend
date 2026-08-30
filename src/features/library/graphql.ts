@@ -1,9 +1,21 @@
 import { gql } from "@apollo/client";
-import type { DeckSummary } from "../store/graphql";
+import type { Difficulty, DeckSummary } from "../store/graphql";
+
+export type LibrarySortOrder = "RECENT" | "TITLE" | "LAST_STUDIED" | "RATING";
 
 export const MY_LIBRARY_QUERY = gql`
-  query MyLibrary {
-    myLibrary {
+  query MyLibrary(
+    $categoryId: ID
+    $search: String
+    $difficulty: Difficulty
+    $sort: LibrarySortOrder
+  ) {
+    myLibrary(
+      categoryId: $categoryId
+      search: $search
+      difficulty: $difficulty
+      sort: $sort
+    ) {
       id
       lastStudiedAt
       createdAt
@@ -15,6 +27,8 @@ export const MY_LIBRARY_QUERY = gql`
         difficulty
         isFree
         cardCount
+        ratingAverage
+        ratingCount
         category {
           id
           name
@@ -51,6 +65,13 @@ export interface LibraryEntry {
 
 export interface MyLibraryQueryData {
   myLibrary: LibraryEntry[];
+}
+
+export interface MyLibraryQueryVars {
+  categoryId?: string;
+  search?: string;
+  difficulty?: Difficulty;
+  sort?: LibrarySortOrder;
 }
 
 export interface AddDeckToLibraryData {

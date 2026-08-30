@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { StarRating } from "@/components/star-rating/star-rating";
 import type { DeckSummary } from "../graphql";
 import styles from "./deck-card.module.scss";
 
@@ -43,6 +44,13 @@ export function DeckCard({ deck, action }: DeckCardProps) {
             {deck.cardCount} {deck.cardCount === 1 ? "card" : "cards"}
           </span>
         </div>
+        {deck.ratingCount > 0 && (
+          <StarRating
+            value={deck.ratingAverage}
+            count={deck.ratingCount}
+            size={13}
+          />
+        )}
       </div>
 
       {action && <div className={styles.action}>{action}</div>}
