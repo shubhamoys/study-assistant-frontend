@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { RegisterForm } from "@/features/auth/register-form";
+import { RegisterForm } from "@/features/auth/register-form/register-form";
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {

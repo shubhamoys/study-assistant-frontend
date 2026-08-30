@@ -1,0 +1,94 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  width: 100%;
+  border-bottom: 3px solid var(--ink-primary);
+  background: var(--bg-card);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
+}
+
+.brand {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.0625rem;
+  color: var(--ink-primary);
+  white-space: nowrap;
+  transition: color 0.1s ease;
+
+  &:hover {
+    color: var(--brand-primary);
+  }
+}
+
+.brandShort {
+  display: none;
+}
+
+// Same swap logic runs on every page, so this never causes the
+// route-dependent layout shift the fixed-content stamp used to.
+@media (max-width: 30rem) {
+  .brandFull {
+    display: none;
+  }
+
+  .brandShort {
+    display: inline;
+  }
+}
+
+.desktopNav {
+  min-width: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.desktopOnly {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.mobileOnly {
+  display: none;
+}
+
+.guestActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+// Below this width there's no room for the inline nav, theme toggle, and
+// avatar menu — MobileNavDrawer folds all three into one drawer instead
+// (guestActions is unaffected: logged-out visitors never see the drawer).
+@media (max-width: 47.9375rem) {
+  .desktopNav {
+    display: none;
+  }
+
+  .desktopOnly {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+}

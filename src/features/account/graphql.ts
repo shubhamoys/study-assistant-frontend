@@ -8,6 +8,7 @@ export const ACCOUNT_QUERY = gql`
       displayName
       avatarUrl
       isEmailVerified
+      verificationEmailSentAt
     }
   }
 `;
@@ -27,6 +28,7 @@ export interface AccountUser {
   displayName: string | null;
   avatarUrl: string | null;
   isEmailVerified: boolean;
+  verificationEmailSentAt: string | null;
 }
 
 export interface AccountQueryData {

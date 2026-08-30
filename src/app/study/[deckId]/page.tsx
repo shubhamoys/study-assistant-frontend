@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { StudySession } from "@/features/study/study-session";
+import { StudySession } from "@/features/study/study-session/study-session";
 
 export const metadata: Metadata = {
   title: "Study — AI Study Assistant",

@@ -2,10 +2,15 @@ import { z } from "zod";
 
 // Mirrors study-assistant-backend's RegisterInput validation
 // (src/app-modules/auth/dto/register.input.ts) — keep these in sync.
-// `confirmPassword` is a client-only UX check — only `email`/`password` are
-// ever sent to the API, so the backend has no matching field for it.
+// `confirmPassword` is a client-only UX check — only `email`/`password`/
+// `displayName` are ever sent to the API, so the backend has no matching
+// field for it.
 export const registerSchema = z
   .object({
+    displayName: z
+      .string()
+      .min(1, "Display name is required")
+      .max(100, "Display name must be at most 100 characters long"),
     email: z.string().min(1, "Email is required").email("Enter a valid email address"),
     password: z
       .string()

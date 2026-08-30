@@ -1,0 +1,73 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  // Horizontal padding matches SiteHeader's .inner exactly, so this page's
+  // content lines up with the header above it instead of shifting relative
+  // to it — see the container-width decision-log entry.
+  padding: 2rem 1.25rem 4rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 2rem;
+  color: var(--ink-primary);
+}
+
+.subheading {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--ink-secondary);
+}
+
+.status {
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+}
+
+.statusError {
+  font-size: 0.875rem;
+  color: var(--state-error);
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--ink-secondary);
+}
+
+.emptyLink {
+  font-weight: 700;
+  color: var(--brand-primary);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1.25rem;
+}
+
+.cardActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

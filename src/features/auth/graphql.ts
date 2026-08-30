@@ -10,6 +10,7 @@ export const REGISTER_MUTATION = gql`
         id
         email
         displayName
+        avatarUrl
       }
     }
   }
@@ -24,6 +25,7 @@ export const LOGIN_MUTATION = gql`
         id
         email
         displayName
+        avatarUrl
       }
     }
   }
@@ -41,6 +43,7 @@ export const ME_QUERY = gql`
       id
       email
       displayName
+      avatarUrl
     }
   }
 `;
@@ -63,6 +66,12 @@ export const VERIFY_EMAIL_MUTATION = gql`
   }
 `;
 
+export const RESEND_VERIFICATION_EMAIL_MUTATION = gql`
+  mutation ResendVerificationEmail {
+    resendVerificationEmail
+  }
+`;
+
 export const CHANGE_PASSWORD_MUTATION = gql`
   mutation ChangePassword($input: ChangePasswordInput!) {
     changePassword(input: $input)
@@ -80,7 +89,7 @@ export interface RegisterMutationData {
 }
 
 export interface RegisterMutationVars {
-  input: { email: string; password: string };
+  input: { email: string; password: string; displayName: string };
 }
 
 export interface LoginMutationData {
@@ -125,6 +134,10 @@ export interface VerifyEmailMutationData {
 
 export interface VerifyEmailMutationVars {
   token: string;
+}
+
+export interface ResendVerificationEmailMutationData {
+  resendVerificationEmail: boolean;
 }
 
 export interface ChangePasswordMutationData {

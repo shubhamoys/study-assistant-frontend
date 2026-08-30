@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ResetPasswordForm } from "@/features/auth/reset-password-form";
+import { ResetPasswordForm } from "@/features/auth/reset-password-form/reset-password-form";
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { VerifyEmailStatus } from "@/features/auth/verify-email-status";
+import { VerifyEmailStatus } from "@/features/auth/verify-email-status/verify-email-status";
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {

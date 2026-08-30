@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { StoreBrowser } from "@/features/store/store-browser";
+import { StoreBrowser } from "@/features/store/store-browser/store-browser";
 
 export const metadata: Metadata = {
   title: "Store — AI Study Assistant",
