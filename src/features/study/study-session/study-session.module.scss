@@ -1,6 +1,7 @@
 // Full-width outer wrapper, same max-width/padding as SiteHeader's .inner
 // (and every other page) so this page's content lines up with the header
-// above it — .content below is what actually stays narrow for readability.
+// above it — .content below is what actually stays narrow for readability,
+// centered within this wider wrapper rather than left-aligned to it.
 .page {
   width: 100%;
   max-width: 72rem;
@@ -11,8 +12,10 @@
 .content {
   display: flex;
   flex-direction: column;
+  // justify-content: center;
   gap: 2rem;
   max-width: 40rem;
+  margin: 0 auto;
 }
 
 .deckRow {
