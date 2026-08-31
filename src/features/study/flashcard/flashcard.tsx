@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { MarkdownContent } from "@/components/markdown-content/markdown-content";
 import styles from "./flashcard.module.scss";
 
 interface FlashcardProps {
@@ -47,7 +48,9 @@ export function Flashcard({ front, back, revealed }: FlashcardProps) {
       <span className={styles.label}>
         {displaySide === "back" ? "Answer" : "Question"}
       </span>
-      <p className={styles.content}>{displaySide === "back" ? back : front}</p>
+      <MarkdownContent className={styles.content}>
+        {displaySide === "back" ? back : front}
+      </MarkdownContent>
     </div>
   );
 }

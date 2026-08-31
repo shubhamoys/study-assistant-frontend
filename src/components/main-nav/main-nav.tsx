@@ -10,6 +10,7 @@ import styles from "./main-nav.module.scss";
 export const NAV_LINKS = [
   { href: "/store", label: "Store" },
   { href: "/library", label: "Library" },
+  { href: "/decks", label: "My Decks" },
 ];
 
 /** Store/Library nav — only rendered once a user is signed in. Desktop inline row; SiteHeader's mobile menu renders the same NAV_LINKS as a dropdown instead. */

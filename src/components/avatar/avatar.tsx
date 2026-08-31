@@ -1,4 +1,4 @@
-import { resolveAvatarUrl } from "@/lib/avatar-url";
+import { resolveAssetUrl } from "@/lib/asset-url";
 import styles from "./avatar.module.scss";
 
 interface AvatarProps {
@@ -10,7 +10,7 @@ interface AvatarProps {
 
 /** A user's photo, or their first initial in a circle when there isn't one. Shared between the header's account menu and the account settings page. */
 export function Avatar({ avatarUrl, label, size = "lg" }: AvatarProps) {
-  const resolved = resolveAvatarUrl(avatarUrl);
+  const resolved = resolveAssetUrl(avatarUrl);
   const initial = label.charAt(0).toUpperCase();
 
   return (

@@ -3,8 +3,8 @@
 import { useRef, useState } from "react";
 import { Camera } from "@phosphor-icons/react";
 import { Avatar } from "@/components/avatar/avatar";
+import { endpoint } from "@/lib/api-endpoints";
 import { getAccessToken } from "@/lib/auth-token";
-import { API_ORIGIN } from "@/lib/graphql-endpoint";
 import styles from "./avatar-uploader.module.scss";
 
 interface AvatarUploaderProps {
@@ -48,7 +48,7 @@ export function AvatarUploader({
       const formData = new FormData();
       formData.append("file", file);
 
-      const res = await fetch(`${API_ORIGIN}/api/users/me/avatar`, {
+      const res = await fetch(endpoint.avatarUpload, {
         method: "POST",
         headers: token ? { Authorization: `Bearer ${token}` } : undefined,
         body: formData,

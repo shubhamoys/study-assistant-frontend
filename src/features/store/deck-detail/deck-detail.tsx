@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useQuery } from "@apollo/client/react";
 import { Button } from "@/components/ui/button";
+import { MarkdownContent } from "@/components/markdown-content/markdown-content";
 import { SiteHeader } from "@/components/site-header/site-header";
 import { StarRating } from "@/components/star-rating/star-rating";
+import { useAuth } from "@/features/auth/use-auth";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
 import { AddToLibraryButton } from "@/features/library/add-to-library-button/add-to-library-button";
 import { MY_LIBRARY_QUERY, type MyLibraryQueryData } from "@/features/library/graphql";
@@ -24,6 +26,7 @@ interface DeckDetailProps {
 
 export function DeckDetail({ deckId }: DeckDetailProps) {
   const { isReady } = useRequireAuth();
+  const { user } = useAuth();
   const { data, loading, error } = useQuery<DeckQueryData, DeckQueryVars>(
     DECK_QUERY,
     { variables: { id: deckId }, skip: !isReady },
@@ -39,6 +42,7 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
   const inLibrary = Boolean(
     libraryData?.myLibrary.some((entry) => entry.deck.id === deckId),
   );
+  const isOwner = Boolean(data && user && data.deck.authorId === user.id);
 
   return (
     <>
@@ -61,7 +65,9 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
               <span className="tag">{data.deck.category.name}</span>
               <h1 className={styles.title}>{data.deck.title}</h1>
               {data.deck.description && (
-                <p className={styles.description}>{data.deck.description}</p>
+                <MarkdownContent className={styles.description}>
+                  {data.deck.description}
+                </MarkdownContent>
               )}
 
               <p className={styles.author}>By {data.deck.authorDisplayName}</p>
@@ -115,6 +121,11 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
                 {inLibrary && (
                   <Button asChild variant="secondary" size="sm">
                     <Link href={`/study/${data.deck.id}`}>Study</Link>
+                  </Button>
+                )}
+                {isOwner && (
+                  <Button asChild variant="secondary" size="sm">
+                    <Link href={`/decks/${data.deck.id}/edit`}>Edit deck</Link>
                   </Button>
                 )}
               </div>

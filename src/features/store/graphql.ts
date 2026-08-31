@@ -25,6 +25,7 @@ export const DECKS_QUERY = gql`
       sort: $sort
     ) {
       id
+      authorId
       title
       description
       coverUrl
@@ -46,6 +47,7 @@ export const DECK_QUERY = gql`
   query Deck($id: ID!) {
     deck(id: $id) {
       id
+      authorId
       title
       description
       coverUrl
@@ -65,6 +67,103 @@ export const DECK_QUERY = gql`
         slug
       }
     }
+  }
+`;
+
+export const MY_DECKS_QUERY = gql`
+  query MyDecks {
+    myDecks {
+      id
+      authorId
+      title
+      description
+      coverUrl
+      difficulty
+      isFree
+      cardCount
+      ratingAverage
+      ratingCount
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+export const DECK_FLASHCARDS_QUERY = gql`
+  query DeckFlashcards($deckId: ID!) {
+    deckFlashcards(deckId: $deckId) {
+      id
+      front
+      back
+      orderIndex
+      createdAt
+    }
+  }
+`;
+
+export const CREATE_DECK_MUTATION = gql`
+  mutation CreateDeck($input: CreateDeckInput!) {
+    createDeck(input: $input) {
+      id
+      authorId
+      title
+    }
+  }
+`;
+
+export const UPDATE_DECK_MUTATION = gql`
+  mutation UpdateDeck($id: ID!, $input: UpdateDeckInput!) {
+    updateDeck(id: $id, input: $input) {
+      id
+      title
+      description
+      coverUrl
+      difficulty
+      category {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
+export const DELETE_DECK_MUTATION = gql`
+  mutation DeleteDeck($id: ID!) {
+    deleteDeck(id: $id)
+  }
+`;
+
+export const CREATE_FLASHCARD_MUTATION = gql`
+  mutation CreateFlashcard($input: CreateFlashcardInput!) {
+    createFlashcard(input: $input) {
+      id
+      front
+      back
+      orderIndex
+      createdAt
+    }
+  }
+`;
+
+export const UPDATE_FLASHCARD_MUTATION = gql`
+  mutation UpdateFlashcard($id: ID!, $input: UpdateFlashcardInput!) {
+    updateFlashcard(id: $id, input: $input) {
+      id
+      front
+      back
+      orderIndex
+      createdAt
+    }
+  }
+`;
+
+export const DELETE_FLASHCARD_MUTATION = gql`
+  mutation DeleteFlashcard($id: ID!) {
+    deleteFlashcard(id: $id)
   }
 `;
 
@@ -132,6 +231,7 @@ export type DeckSortOrder = "NEWEST" | "RATING" | "DOWNLOADS" | "TITLE";
 
 export interface DeckSummary {
   id: string;
+  authorId: string;
   title: string;
   description: string | null;
   coverUrl: string | null;
@@ -141,6 +241,14 @@ export interface DeckSummary {
   ratingAverage: number;
   ratingCount: number;
   category: { id: string; name: string; slug: string };
+}
+
+export interface Flashcard {
+  id: string;
+  front: string;
+  back: string;
+  orderIndex: number;
+  createdAt: string;
 }
 
 export interface DeckDetail extends DeckSummary {
@@ -215,5 +323,88 @@ export interface DeleteReviewMutationData {
 }
 
 export interface DeleteReviewMutationVars {
+  id: string;
+}
+
+export interface MyDecksQueryData {
+  myDecks: DeckSummary[];
+}
+
+export interface DeckFlashcardsQueryData {
+  deckFlashcards: Flashcard[];
+}
+
+export interface DeckFlashcardsQueryVars {
+  deckId: string;
+}
+
+export interface DeckInput {
+  title: string;
+  description?: string;
+  coverUrl?: string;
+  categoryId: string;
+  difficulty: Difficulty;
+}
+
+export interface CreateDeckMutationData {
+  createDeck: { id: string; authorId: string; title: string };
+}
+
+export interface CreateDeckMutationVars {
+  input: DeckInput;
+}
+
+export interface UpdateDeckMutationData {
+  updateDeck: {
+    id: string;
+    title: string;
+    description: string | null;
+    coverUrl: string | null;
+    difficulty: Difficulty;
+    category: { id: string; name: string; slug: string };
+  };
+}
+
+export interface UpdateDeckMutationVars {
+  id: string;
+  input: Partial<DeckInput>;
+}
+
+export interface DeleteDeckMutationData {
+  deleteDeck: boolean;
+}
+
+export interface DeleteDeckMutationVars {
+  id: string;
+}
+
+export interface FlashcardInput {
+  front: string;
+  back: string;
+  orderIndex?: number;
+}
+
+export interface CreateFlashcardMutationData {
+  createFlashcard: Flashcard;
+}
+
+export interface CreateFlashcardMutationVars {
+  input: FlashcardInput & { deckId: string };
+}
+
+export interface UpdateFlashcardMutationData {
+  updateFlashcard: Flashcard;
+}
+
+export interface UpdateFlashcardMutationVars {
+  id: string;
+  input: Partial<FlashcardInput>;
+}
+
+export interface DeleteFlashcardMutationData {
+  deleteFlashcard: boolean;
+}
+
+export interface DeleteFlashcardMutationVars {
   id: string;
 }
