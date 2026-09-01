@@ -52,7 +52,12 @@ export function EditDeckPage({ deckId }: EditDeckPageProps) {
 
           {deck && isOwner && (
             <>
-              <h1 className={styles.heading}>Edit deck</h1>
+              <div className={styles.headingRow}>
+                <h1 className={styles.heading}>Edit deck</h1>
+                <Link href={`/store/${deck.id}`} className={styles.viewLink}>
+                  View deck →
+                </Link>
+              </div>
               <DeckForm
                 mode="edit"
                 deckId={deck.id}

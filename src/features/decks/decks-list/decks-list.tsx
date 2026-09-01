@@ -49,7 +49,8 @@ export function DecksList() {
           <div>
             <h1 className={styles.heading}>My decks</h1>
             <p className={styles.subheading}>
-              Decks you&apos;ve created and can edit.
+              Decks you&apos;ve created and can edit. These are private to
+              you — they won&apos;t appear in the Store for other users.
             </p>
           </div>
           <Button asChild>
@@ -91,6 +92,9 @@ export function DecksList() {
                 )}
               </div>
               <div className={styles.cardActions}>
+                <Button asChild variant="secondary" size="sm">
+                  <Link href={`/store/${deck.id}`}>View</Link>
+                </Button>
                 <Button asChild variant="secondary" size="sm">
                   <Link href={`/decks/${deck.id}/edit`}>Edit</Link>
                 </Button>
