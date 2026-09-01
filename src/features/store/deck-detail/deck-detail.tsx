@@ -62,7 +62,9 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
 
           {data && (
             <article className={`${styles.card} index-card`}>
-              <span className="tag">{data.deck.category.name}</span>
+              <span className="tag">
+                {data.deck.category?.name ?? "Uncategorized"}
+              </span>
               <h1 className={styles.title}>{data.deck.title}</h1>
               {data.deck.description && (
                 <MarkdownContent className={styles.description}>
@@ -73,10 +75,12 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
               <p className={styles.author}>By {data.deck.authorDisplayName}</p>
 
               <dl className={styles.stats}>
-                <div className={styles.stat}>
-                  <dt>Difficulty</dt>
-                  <dd>{DIFFICULTY_LABEL[data.deck.difficulty]}</dd>
-                </div>
+                {data.deck.difficulty && (
+                  <div className={styles.stat}>
+                    <dt>Difficulty</dt>
+                    <dd>{DIFFICULTY_LABEL[data.deck.difficulty]}</dd>
+                  </div>
+                )}
                 <div className={styles.stat}>
                   <dt>Cards</dt>
                   <dd>{data.deck.cardCount}</dd>

@@ -4,7 +4,10 @@ import { StarRating } from "@/components/star-rating/star-rating";
 import type { DeckSummary } from "../graphql";
 import styles from "./deck-card.module.scss";
 
-const DIFFICULTY_LABEL: Record<DeckSummary["difficulty"], string> = {
+const DIFFICULTY_LABEL: Record<
+  NonNullable<DeckSummary["difficulty"]>,
+  string
+> = {
   BEGINNER: "Beginner",
   INTERMEDIATE: "Intermediate",
   ADVANCED: "Advanced",
@@ -25,21 +28,28 @@ export function DeckCard({ deck, action }: DeckCardProps) {
         <span className={styles.visuallyHidden}>View {deck.title}</span>
       </Link>
 
-      <div className={styles.cover} data-difficulty={deck.difficulty}>
+      <div
+        className={styles.cover}
+        data-difficulty={deck.difficulty ?? undefined}
+      >
         <span className={styles.coverInitial} aria-hidden="true">
           {deck.title.charAt(0).toUpperCase()}
         </span>
       </div>
 
       <div className={styles.body}>
-        <span className="tag">{deck.category.name}</span>
+        <span className="tag">{deck.category?.name ?? "Uncategorized"}</span>
         <h3 className={styles.title}>{deck.title}</h3>
         {deck.description && (
           <p className={styles.description}>{deck.description}</p>
         )}
         <div className={styles.meta}>
-          <span>{DIFFICULTY_LABEL[deck.difficulty]}</span>
-          <span aria-hidden="true">·</span>
+          {deck.difficulty && (
+            <>
+              <span>{DIFFICULTY_LABEL[deck.difficulty]}</span>
+              <span aria-hidden="true">·</span>
+            </>
+          )}
           <span>
             {deck.cardCount} {deck.cardCount === 1 ? "card" : "cards"}
           </span>

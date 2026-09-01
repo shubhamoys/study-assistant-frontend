@@ -19,7 +19,6 @@ import {
   type CategoriesQueryData,
   type CreateDeckMutationData,
   type CreateDeckMutationVars,
-  type Difficulty,
   type UpdateDeckMutationData,
   type UpdateDeckMutationVars,
 } from "@/features/store/graphql";
@@ -40,8 +39,7 @@ interface DeckFormInitial {
   title: string;
   description: string | null;
   coverUrl: string | null;
-  categoryId: string;
-  difficulty: Difficulty;
+  categoryId: string | null;
 }
 
 interface DeckFormProps {
@@ -68,7 +66,6 @@ export function DeckForm({ mode, deckId, initial }: DeckFormProps) {
       description: initial?.description ?? undefined,
       coverUrl: initial?.coverUrl ?? undefined,
       categoryId: initial?.categoryId ?? "",
-      difficulty: initial?.difficulty ?? "BEGINNER",
     },
   });
 
@@ -158,45 +155,27 @@ export function DeckForm({ mode, deckId, initial }: DeckFormProps) {
         />
       </div>
 
-      <div className={styles.row}>
-        <div className={authFormStyles.field}>
-          <label className={authFormStyles.fieldLabel} htmlFor="deck-category">
-            Category
-          </label>
-          <Select
-            id="deck-category"
-            aria-invalid={Boolean(errors.categoryId)}
-            {...register("categoryId")}
-          >
-            <option value="" disabled>
-              Choose a category
+      <div className={authFormStyles.field}>
+        <label className={authFormStyles.fieldLabel} htmlFor="deck-category">
+          Category (optional)
+        </label>
+        <Select
+          id="deck-category"
+          aria-invalid={Boolean(errors.categoryId)}
+          {...register("categoryId")}
+        >
+          <option value="">No category</option>
+          {categoriesData?.categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
             </option>
-            {categoriesData?.categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </Select>
-          {errors.categoryId && (
-            <span className={authFormStyles.fieldError}>
-              {errors.categoryId.message}
-            </span>
-          )}
-        </div>
-
-        <div className={authFormStyles.field}>
-          <label
-            className={authFormStyles.fieldLabel}
-            htmlFor="deck-difficulty"
-          >
-            Difficulty
-          </label>
-          <Select id="deck-difficulty" {...register("difficulty")}>
-            <option value="BEGINNER">Beginner</option>
-            <option value="INTERMEDIATE">Intermediate</option>
-            <option value="ADVANCED">Advanced</option>
-          </Select>
-        </div>
+          ))}
+        </Select>
+        {errors.categoryId && (
+          <span className={authFormStyles.fieldError}>
+            {errors.categoryId.message}
+          </span>
+        )}
       </div>
 
       <CoverUploader control={control} />

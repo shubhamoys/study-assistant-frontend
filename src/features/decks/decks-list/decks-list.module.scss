@@ -16,6 +16,16 @@
   flex-wrap: wrap;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hiddenInput {
+  display: none;
+}
+
 .heading {
   margin: 0;
   font-family: var(--font-display);

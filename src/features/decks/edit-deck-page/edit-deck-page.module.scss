@@ -32,6 +32,13 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.headingActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .heading {

@@ -114,6 +114,16 @@ export const CREATE_DECK_MUTATION = gql`
   }
 `;
 
+export const IMPORT_DECK_MUTATION = gql`
+  mutation ImportDeck($input: ImportDeckInput!) {
+    importDeck(input: $input) {
+      id
+      authorId
+      title
+    }
+  }
+`;
+
 export const UPDATE_DECK_MUTATION = gql`
   mutation UpdateDeck($id: ID!, $input: UpdateDeckInput!) {
     updateDeck(id: $id, input: $input) {
@@ -235,12 +245,12 @@ export interface DeckSummary {
   title: string;
   description: string | null;
   coverUrl: string | null;
-  difficulty: Difficulty;
+  difficulty: Difficulty | null;
   isFree: boolean;
   cardCount: number;
   ratingAverage: number;
   ratingCount: number;
-  category: { id: string; name: string; slug: string };
+  category: { id: string; name: string; slug: string } | null;
 }
 
 export interface Flashcard {
@@ -342,8 +352,7 @@ export interface DeckInput {
   title: string;
   description?: string;
   coverUrl?: string;
-  categoryId: string;
-  difficulty: Difficulty;
+  categoryId?: string;
 }
 
 export interface CreateDeckMutationData {
@@ -360,14 +369,27 @@ export interface UpdateDeckMutationData {
     title: string;
     description: string | null;
     coverUrl: string | null;
-    difficulty: Difficulty;
-    category: { id: string; name: string; slug: string };
+    difficulty: Difficulty | null;
+    category: { id: string; name: string; slug: string } | null;
   };
 }
 
 export interface UpdateDeckMutationVars {
   id: string;
   input: Partial<DeckInput>;
+}
+
+export interface ImportDeckInput extends DeckInput {
+  difficulty?: Difficulty;
+  flashcards: { front: string; back: string; orderIndex?: number }[];
+}
+
+export interface ImportDeckMutationData {
+  importDeck: { id: string; authorId: string; title: string };
+}
+
+export interface ImportDeckMutationVars {
+  input: ImportDeckInput;
 }
 
 export interface DeleteDeckMutationData {

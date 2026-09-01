@@ -1,21 +1,29 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@apollo/client/react";
+import { CombinedGraphQLErrors } from "@apollo/client/errors";
 import { Button } from "@/components/ui/button";
 import { StarRating } from "@/components/star-rating/star-rating";
 import { SiteHeader } from "@/components/site-header/site-header";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
+import { parseDeckExportFile } from "@/lib/deck-export";
 import {
   DELETE_DECK_MUTATION,
+  IMPORT_DECK_MUTATION,
   MY_DECKS_QUERY,
   type DeleteDeckMutationData,
   type DeleteDeckMutationVars,
+  type ImportDeckMutationData,
+  type ImportDeckMutationVars,
   type MyDecksQueryData,
 } from "@/features/store/graphql";
 import styles from "./decks-list.module.scss";
 
 export function DecksList() {
+  const router = useRouter();
   const { isReady } = useRequireAuth();
   const { data, loading, error, refetch } = useQuery<MyDecksQueryData>(
     MY_DECKS_QUERY,
@@ -25,6 +33,13 @@ export function DecksList() {
     DeleteDeckMutationData,
     DeleteDeckMutationVars
   >(DELETE_DECK_MUTATION);
+  const [importDeck] = useMutation<
+    ImportDeckMutationData,
+    ImportDeckMutationVars
+  >(IMPORT_DECK_MUTATION);
+  const importInputRef = useRef<HTMLInputElement>(null);
+  const [importing, setImporting] = useState(false);
+  const [importError, setImportError] = useState<string | null>(null);
 
   if (!isReady) {
     return null;
@@ -41,6 +56,39 @@ export function DecksList() {
     }
   }
 
+  async function handleImportFile(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    setImporting(true);
+    setImportError(null);
+    const parsed = await parseDeckExportFile(file);
+    if (!parsed.ok) {
+      setImporting(false);
+      setImportError(parsed.error);
+      return;
+    }
+
+    try {
+      const { data: result } = await importDeck({
+        variables: { input: parsed.input },
+      });
+      if (result) router.push(`/decks/${result.importDeck.id}/edit`);
+    } catch (mutationError) {
+      const code = CombinedGraphQLErrors.is(mutationError)
+        ? mutationError.errors[0]?.extensions?.code
+        : undefined;
+      setImportError(
+        code === "BAD_REQUEST"
+          ? "That file has invalid deck data."
+          : "Import failed. Please try again.",
+      );
+    } finally {
+      setImporting(false);
+    }
+  }
+
   return (
     <>
       <SiteHeader />
@@ -53,10 +101,31 @@ export function DecksList() {
               you — they won&apos;t appear in the Store for other users.
             </p>
           </div>
-          <Button asChild>
-            <Link href="/decks/new">Create deck</Link>
-          </Button>
+          <div className={styles.headerActions}>
+            <Button
+              type="button"
+              variant="secondary"
+              disabled={importing}
+              onClick={() => importInputRef.current?.click()}
+            >
+              {importing ? "Importing…" : "Import deck"}
+            </Button>
+            <input
+              ref={importInputRef}
+              type="file"
+              accept="application/json,.json"
+              className={styles.hiddenInput}
+              onChange={(event) => void handleImportFile(event)}
+            />
+            <Button asChild>
+              <Link href="/decks/new">Create deck</Link>
+            </Button>
+          </div>
         </header>
+
+        {importError && (
+          <p className={styles.statusError}>{importError}</p>
+        )}
 
         {loading && <p className={styles.status}>Loading your decks…</p>}
         {error && (
@@ -78,7 +147,9 @@ export function DecksList() {
           {data?.myDecks.map((deck) => (
             <article key={deck.id} className={`${styles.card} index-card`}>
               <div className={styles.cardBody}>
-                <span className="tag">{deck.category.name}</span>
+                <span className="tag">
+                  {deck.category?.name ?? "Uncategorized"}
+                </span>
                 <h2 className={styles.cardTitle}>{deck.title}</h2>
                 <p className={styles.cardMeta}>
                   {deck.cardCount} {deck.cardCount === 1 ? "card" : "cards"}

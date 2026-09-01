@@ -18,6 +18,9 @@ export type ReviewFormValues = z.infer<typeof reviewSchema>;
 
 // Mirrors CreateDeckInput/UpdateDeckInput
 // (src/app-modules/store/dto/create-deck.input.ts, update-deck.input.ts).
+// No `difficulty` — a custom deck never has one (see the Phase 3
+// decision-log entry in AGENT_CONTEXT.md). `categoryId` is optional; an
+// empty-string select value is normalized to `undefined` before submit.
 export const deckSchema = z.object({
   title: z
     .string()
@@ -28,10 +31,10 @@ export const deckSchema = z.object({
     .max(2000, "Description must be at most 2000 characters long")
     .optional(),
   coverUrl: z.string().optional(),
-  categoryId: z.string().min(1, "Choose a category"),
-  difficulty: z.enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"], {
-    message: "Choose a difficulty",
-  }),
+  categoryId: z
+    .string()
+    .optional()
+    .transform((value) => value || undefined),
 });
 
 export type DeckFormValues = z.infer<typeof deckSchema>;
@@ -49,3 +52,30 @@ export const flashcardSchema = z.object({
 });
 
 export type FlashcardFormValues = z.infer<typeof flashcardSchema>;
+
+// The .deck.json file shape written by src/lib/deck-export.ts's
+// `downloadDeckExport` and read back by its `parseDeckExportFile` — kept
+// here so it's validated the same way as everything else user-supplied.
+export const deckExportFileSchema = z.object({
+  format: z.literal("study-assistant-deck"),
+  version: z.literal(1),
+  deck: z.object({
+    title: z.string().min(1).max(255),
+    description: z.string().max(2000).nullable().optional(),
+    coverUrl: z.string().max(512).nullable().optional(),
+    categoryId: z.string().nullable().optional(),
+    difficulty: z
+      .enum(["BEGINNER", "INTERMEDIATE", "ADVANCED"])
+      .nullable()
+      .optional(),
+  }),
+  flashcards: z.array(
+    z.object({
+      front: z.string().min(1).max(5000),
+      back: z.string().min(1).max(5000),
+      orderIndex: z.number().int().min(0).optional(),
+    }),
+  ),
+});
+
+export type DeckExportFile = z.infer<typeof deckExportFileSchema>;

@@ -1,11 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useQuery } from "@apollo/client/react";
+import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header/site-header";
 import { useAuth } from "@/features/auth/use-auth";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
-import { DECK_QUERY, type DeckQueryData, type DeckQueryVars } from "@/features/store/graphql";
+import { downloadDeckExport } from "@/lib/deck-export";
+import {
+  DECK_FLASHCARDS_QUERY,
+  DECK_QUERY,
+  type DeckFlashcardsQueryData,
+  type DeckFlashcardsQueryVars,
+  type DeckQueryData,
+  type DeckQueryVars,
+} from "@/features/store/graphql";
 import { DeckForm } from "../deck-form/deck-form";
 import { FlashcardEditor } from "../flashcard-editor/flashcard-editor";
 import styles from "./edit-deck-page.module.scss";
@@ -21,6 +30,10 @@ export function EditDeckPage({ deckId }: EditDeckPageProps) {
     DECK_QUERY,
     { variables: { id: deckId }, skip: !isReady },
   );
+  const [loadFlashcards, { loading: exporting }] = useLazyQuery<
+    DeckFlashcardsQueryData,
+    DeckFlashcardsQueryVars
+  >(DECK_FLASHCARDS_QUERY, { fetchPolicy: "network-only" });
 
   if (!isReady) {
     return null;
@@ -28,6 +41,14 @@ export function EditDeckPage({ deckId }: EditDeckPageProps) {
 
   const deck = data?.deck;
   const isOwner = Boolean(deck && user && deck.authorId === user.id);
+
+  async function handleExport() {
+    if (!deck) return;
+    const { data: cardsData } = await loadFlashcards({
+      variables: { deckId: deck.id },
+    });
+    downloadDeckExport(deck, cardsData?.deckFlashcards ?? []);
+  }
 
   return (
     <>
@@ -54,9 +75,20 @@ export function EditDeckPage({ deckId }: EditDeckPageProps) {
             <>
               <div className={styles.headingRow}>
                 <h1 className={styles.heading}>Edit deck</h1>
-                <Link href={`/store/${deck.id}`} className={styles.viewLink}>
-                  View deck →
-                </Link>
+                <div className={styles.headingActions}>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    disabled={exporting}
+                    onClick={() => void handleExport()}
+                  >
+                    {exporting ? "Exporting…" : "Export"}
+                  </Button>
+                  <Link href={`/store/${deck.id}`} className={styles.viewLink}>
+                    View deck →
+                  </Link>
+                </div>
               </div>
               <DeckForm
                 mode="edit"
@@ -65,8 +97,7 @@ export function EditDeckPage({ deckId }: EditDeckPageProps) {
                   title: deck.title,
                   description: deck.description,
                   coverUrl: deck.coverUrl,
-                  categoryId: deck.category.id,
-                  difficulty: deck.difficulty,
+                  categoryId: deck.category?.id ?? null,
                 }}
               />
               <FlashcardEditor deckId={deck.id} />
