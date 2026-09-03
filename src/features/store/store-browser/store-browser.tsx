@@ -9,6 +9,8 @@ import { useDebouncedValue } from "@/hooks/use-debounce";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
 import { AddToLibraryButton } from "@/features/library/add-to-library-button/add-to-library-button";
 import { MY_LIBRARY_QUERY, type MyLibraryQueryData } from "@/features/library/graphql";
+import { AddToCartButton } from "@/features/cart/add-to-cart-button/add-to-cart-button";
+import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
 import { DeckCard } from "../deck-card/deck-card";
 import {
   CATEGORIES_QUERY,
@@ -57,6 +59,7 @@ export function StoreBrowser() {
     },
   });
   const { data: libraryData } = useQuery<MyLibraryQueryData>(MY_LIBRARY_QUERY);
+  const { data: cartData } = useQuery<MyCartQueryData>(MY_CART_QUERY);
 
   if (!isReady) {
     return null;
@@ -64,6 +67,9 @@ export function StoreBrowser() {
 
   const libraryDeckIds = new Set(
     libraryData?.myLibrary.map((entry) => entry.deck.id) ?? [],
+  );
+  const cartDeckIds = new Set(
+    cartData?.myCart.map((item) => item.deck.id) ?? [],
   );
 
   return (
@@ -157,10 +163,17 @@ export function StoreBrowser() {
               key={deck.id}
               deck={deck}
               action={
-                <AddToLibraryButton
-                  deckId={deck.id}
-                  inLibrary={libraryDeckIds.has(deck.id)}
-                />
+                deck.isFree ? (
+                  <AddToLibraryButton
+                    deckId={deck.id}
+                    inLibrary={libraryDeckIds.has(deck.id)}
+                  />
+                ) : (
+                  <AddToCartButton
+                    deckId={deck.id}
+                    inCart={cartDeckIds.has(deck.id)}
+                  />
+                )
               }
             />
           ))}

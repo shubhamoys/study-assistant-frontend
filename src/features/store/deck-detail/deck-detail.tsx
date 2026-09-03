@@ -10,6 +10,9 @@ import { useAuth } from "@/features/auth/use-auth";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
 import { AddToLibraryButton } from "@/features/library/add-to-library-button/add-to-library-button";
 import { MY_LIBRARY_QUERY, type MyLibraryQueryData } from "@/features/library/graphql";
+import { AddToCartButton } from "@/features/cart/add-to-cart-button/add-to-cart-button";
+import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
+import { formatPrice } from "@/lib/format-price";
 import { DeckReviews } from "../deck-reviews/deck-reviews";
 import { DECK_QUERY, type DeckQueryData, type DeckQueryVars } from "../graphql";
 import styles from "./deck-detail.module.scss";
@@ -34,6 +37,9 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
   const { data: libraryData } = useQuery<MyLibraryQueryData>(MY_LIBRARY_QUERY, {
     skip: !isReady,
   });
+  const { data: cartData } = useQuery<MyCartQueryData>(MY_CART_QUERY, {
+    skip: !isReady,
+  });
 
   if (!isReady) {
     return null;
@@ -41,6 +47,9 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
 
   const inLibrary = Boolean(
     libraryData?.myLibrary.some((entry) => entry.deck.id === deckId),
+  );
+  const inCart = Boolean(
+    cartData?.myCart.some((item) => item.deck.id === deckId),
   );
   const isOwner = Boolean(data && user && data.deck.authorId === user.id);
 
@@ -92,9 +101,7 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
                 <div className={styles.stat}>
                   <dt>Price</dt>
                   <dd>
-                    {data.deck.isFree
-                      ? "Free"
-                      : `₹${(data.deck.price / 100).toFixed(2)}`}
+                    {data.deck.isFree ? "Free" : formatPrice(data.deck.price)}
                   </dd>
                 </div>
                 <div className={styles.stat}>
@@ -118,10 +125,14 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
               </dl>
 
               <div className={styles.actionRow}>
-                <AddToLibraryButton
-                  deckId={data.deck.id}
-                  inLibrary={inLibrary}
-                />
+                {data.deck.isFree ? (
+                  <AddToLibraryButton
+                    deckId={data.deck.id}
+                    inLibrary={inLibrary}
+                  />
+                ) : (
+                  <AddToCartButton deckId={data.deck.id} inCart={inCart} />
+                )}
                 {inLibrary && (
                   <Button asChild variant="secondary" size="sm">
                     <Link href={`/study/${data.deck.id}`}>Study</Link>

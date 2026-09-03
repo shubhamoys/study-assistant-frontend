@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useQuery } from "@apollo/client/react";
 import { useAuth } from "@/features/auth/use-auth";
+import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
 import styles from "./main-nav.module.scss";
 
 // Account isn't here — it's reached via the profile menu in SiteHeader
@@ -11,12 +13,17 @@ export const NAV_LINKS = [
   { href: "/store", label: "Store" },
   { href: "/library", label: "Library" },
   { href: "/decks", label: "My Decks" },
+  { href: "/cart", label: "Cart" },
 ];
 
-/** Store/Library nav — only rendered once a user is signed in. Desktop inline row; SiteHeader's mobile menu renders the same NAV_LINKS as a dropdown instead. */
+/** Store/Library/Cart nav — only rendered once a user is signed in. Desktop inline row; SiteHeader's mobile menu renders the same NAV_LINKS as a dropdown instead. */
 export function MainNav() {
   const pathname = usePathname();
   const { hydrated, isAuthenticated } = useAuth();
+  const { data: cartData } = useQuery<MyCartQueryData>(MY_CART_QUERY, {
+    skip: !hydrated || !isAuthenticated,
+  });
+  const cartCount = cartData?.myCart.length ?? 0;
 
   if (!hydrated || !isAuthenticated) {
     return null;
@@ -34,6 +41,9 @@ export function MainNav() {
             aria-current={isActive ? "page" : undefined}
           >
             {link.label}
+            {link.href === "/cart" && cartCount > 0 && (
+              <span className={styles.badge}>{cartCount}</span>
+            )}
           </Link>
         );
       })}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { StarRating } from "@/components/star-rating/star-rating";
+import { formatPrice } from "@/lib/format-price";
 import type { DeckSummary } from "../graphql";
 import styles from "./deck-card.module.scss";
 
@@ -38,7 +39,16 @@ export function DeckCard({ deck, action }: DeckCardProps) {
       </div>
 
       <div className={styles.body}>
-        <span className="tag">{deck.category?.name ?? "Uncategorized"}</span>
+        <div className={styles.tags}>
+          <span className="tag">
+            {deck.category?.name ?? "Uncategorized"}
+          </span>
+          {!deck.isFree && (
+            <span className={`tag ${styles.priceTag}`}>
+              {formatPrice(deck.price)}
+            </span>
+          )}
+        </div>
         <h3 className={styles.title}>{deck.title}</h3>
         {deck.description && (
           <p className={styles.description}>{deck.description}</p>

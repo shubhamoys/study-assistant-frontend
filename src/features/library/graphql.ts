@@ -26,6 +26,7 @@ export const MY_LIBRARY_QUERY = gql`
         coverUrl
         difficulty
         isFree
+        price
         cardCount
         ratingAverage
         ratingCount

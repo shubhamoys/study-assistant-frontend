@@ -31,6 +31,7 @@ export const DECKS_QUERY = gql`
       coverUrl
       difficulty
       isFree
+      price
       cardCount
       ratingAverage
       ratingCount
@@ -80,6 +81,7 @@ export const MY_DECKS_QUERY = gql`
       coverUrl
       difficulty
       isFree
+      price
       cardCount
       ratingAverage
       ratingCount
@@ -247,6 +249,7 @@ export interface DeckSummary {
   coverUrl: string | null;
   difficulty: Difficulty | null;
   isFree: boolean;
+  price: number;
   cardCount: number;
   ratingAverage: number;
   ratingCount: number;
@@ -262,7 +265,6 @@ export interface Flashcard {
 }
 
 export interface DeckDetail extends DeckSummary {
-  price: number;
   downloadsCount: number;
   authorDisplayName: string;
   estimatedStudyMinutes: number;

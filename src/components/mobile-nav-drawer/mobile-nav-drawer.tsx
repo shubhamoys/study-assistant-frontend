@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Books, Gear, List, SignOut, Storefront } from "@phosphor-icons/react";
+import { useQuery } from "@apollo/client/react";
+import {
+  Books,
+  Gear,
+  List,
+  ShoppingCart,
+  SignOut,
+  Storefront,
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -13,6 +21,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle/theme-toggle";
+import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
 import { NAV_LINKS } from "../main-nav/main-nav";
 import { useLogout } from "@/features/auth/use-logout";
 import styles from "./mobile-nav-drawer.module.scss";
@@ -20,6 +29,7 @@ import styles from "./mobile-nav-drawer.module.scss";
 const NAV_ICONS: Record<string, React.ReactNode> = {
   "/store": <Storefront size={18} weight="bold" />,
   "/library": <Books size={18} weight="bold" />,
+  "/cart": <ShoppingCart size={18} weight="bold" />,
 };
 
 /**
@@ -32,6 +42,8 @@ const NAV_ICONS: Record<string, React.ReactNode> = {
 export function MobileNavDrawer() {
   const pathname = usePathname();
   const logout = useLogout();
+  const { data: cartData } = useQuery<MyCartQueryData>(MY_CART_QUERY);
+  const cartCount = cartData?.myCart.length ?? 0;
 
   return (
     <Sheet>
@@ -57,6 +69,9 @@ export function MobileNavDrawer() {
                 >
                   {NAV_ICONS[link.href]}
                   {link.label}
+                  {link.href === "/cart" && cartCount > 0 && (
+                    <span className={styles.badge}>{cartCount}</span>
+                  )}
                 </Link>
               </SheetClose>
             );
