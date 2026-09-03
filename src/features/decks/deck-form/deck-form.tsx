@@ -159,18 +159,28 @@ export function DeckForm({ mode, deckId, initial }: DeckFormProps) {
         <label className={authFormStyles.fieldLabel} htmlFor="deck-category">
           Category (optional)
         </label>
-        <Select
-          id="deck-category"
-          aria-invalid={Boolean(errors.categoryId)}
-          {...register("categoryId")}
-        >
-          <option value="">No category</option>
-          {categoriesData?.categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </Select>
+        <Controller
+          name="categoryId"
+          control={control}
+          render={({ field }) => (
+            <Select
+              id="deck-category"
+              aria-invalid={Boolean(errors.categoryId)}
+              name={field.name}
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              ref={field.ref}
+            >
+              <option value="">No category</option>
+              {categoriesData?.categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </Select>
+          )}
+        />
         {errors.categoryId && (
           <span className={authFormStyles.fieldError}>
             {errors.categoryId.message}
