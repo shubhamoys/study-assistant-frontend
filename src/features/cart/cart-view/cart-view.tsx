@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useQuery } from "@apollo/client/react";
+import { Button } from "@/components/ui/button";
 import { SiteHeader } from "@/components/site-header/site-header";
 import { useRequireAuth } from "@/features/auth/use-require-auth";
 import { DeckCard } from "@/features/store/deck-card/deck-card";
@@ -67,9 +68,9 @@ export function CartView() {
                 Total ({items.length} {items.length === 1 ? "deck" : "decks"})
               </span>
               <span className={styles.summaryTotal}>{formatPrice(total)}</span>
-              <p className={styles.summaryNote}>
-                Checkout is coming soon — hang onto your cart for now.
-              </p>
+              <Button asChild className={styles.checkoutButton}>
+                <Link href="/checkout">Proceed to checkout</Link>
+              </Button>
             </div>
           </>
         )}
