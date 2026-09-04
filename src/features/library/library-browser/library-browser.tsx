@@ -169,7 +169,12 @@ export function LibraryBrowser() {
                   <Button asChild size="sm">
                     <Link href={`/study/${entry.deck.id}`}>Study</Link>
                   </Button>
-                  <RemoveFromLibraryButton deckId={entry.deck.id} />
+                  {/* A purchase is permanent — no way to accidentally remove
+                      a deck you paid for. See LibraryService.removeDeck's
+                      matching server-side rejection. */}
+                  {entry.deck.isFree && (
+                    <RemoveFromLibraryButton deckId={entry.deck.id} />
+                  )}
                 </div>
               }
             />
