@@ -4,7 +4,10 @@ import type { DeckSummary } from "../store/graphql";
 const ORDER_FIELDS = `
   id
   status
+  subtotalAmount
+  discountAmount
   totalAmount
+  couponCode
   currency
   createdAt
   items {
@@ -31,8 +34,8 @@ const ORDER_FIELDS = `
 `;
 
 export const CHECKOUT_MUTATION = gql`
-  mutation Checkout {
-    checkout {
+  mutation Checkout($couponCode: String) {
+    checkout(couponCode: $couponCode) {
       ${ORDER_FIELDS}
     }
   }
@@ -42,6 +45,25 @@ export const ORDER_QUERY = gql`
   query Order($id: ID!) {
     order(id: $id) {
       ${ORDER_FIELDS}
+    }
+  }
+`;
+
+export const MY_ORDERS_QUERY = gql`
+  query MyOrders {
+    myOrders {
+      ${ORDER_FIELDS}
+    }
+  }
+`;
+
+export const PREVIEW_COUPON_QUERY = gql`
+  query PreviewCoupon($code: String!) {
+    previewCoupon(code: $code) {
+      code
+      subtotalAmount
+      discountAmount
+      totalAmount
     }
   }
 `;
@@ -57,7 +79,10 @@ export interface OrderItem {
 export interface Order {
   id: string;
   status: OrderStatus;
+  subtotalAmount: number;
+  discountAmount: number;
   totalAmount: number;
+  couponCode: string | null;
   currency: string;
   createdAt: string;
   items: OrderItem[];
@@ -67,10 +92,33 @@ export interface CheckoutMutationData {
   checkout: Order;
 }
 
+export interface CheckoutMutationVars {
+  couponCode?: string;
+}
+
 export interface OrderQueryData {
   order: Order;
 }
 
 export interface OrderQueryVars {
   id: string;
+}
+
+export interface MyOrdersQueryData {
+  myOrders: Order[];
+}
+
+export interface CouponPreview {
+  code: string;
+  subtotalAmount: number;
+  discountAmount: number;
+  totalAmount: number;
+}
+
+export interface PreviewCouponQueryData {
+  previewCoupon: CouponPreview;
+}
+
+export interface PreviewCouponQueryVars {
+  code: string;
 }

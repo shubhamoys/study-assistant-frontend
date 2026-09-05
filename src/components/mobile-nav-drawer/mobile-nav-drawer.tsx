@@ -7,6 +7,7 @@ import {
   Books,
   Gear,
   List,
+  Receipt,
   ShoppingCart,
   SignOut,
   Storefront,
@@ -85,6 +86,17 @@ export function MobileNavDrawer() {
             >
               <Gear size={18} weight="bold" />
               Account settings
+            </Link>
+          </SheetClose>
+
+          <SheetClose asChild>
+            <Link
+              href="/orders"
+              className={`${styles.item} ${pathname.startsWith("/orders") ? styles.itemActive : ""}`}
+              aria-current={pathname.startsWith("/orders") ? "page" : undefined}
+            >
+              <Receipt size={18} weight="bold" />
+              Purchase history
             </Link>
           </SheetClose>
 

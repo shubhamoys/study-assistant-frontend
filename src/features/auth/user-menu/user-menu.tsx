@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CaretDown, Gear, SignOut } from "@phosphor-icons/react";
+import { CaretDown, Gear, Receipt, SignOut } from "@phosphor-icons/react";
 import { Avatar } from "@/components/avatar/avatar";
 import {
   DropdownMenu,
@@ -42,6 +42,12 @@ export function UserMenu() {
           <Link href="/account">
             <Gear size={16} weight="bold" />
             Account settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/orders">
+            <Receipt size={16} weight="bold" />
+            Purchase history
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={() => void logout()}>

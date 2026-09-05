@@ -1,0 +1,12 @@
+
+> study-assistant-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.8:3000
+- Environments: .env.local
+✓ Ready in 3.2s
+✓ Running next.config.ts took 111ms
+
+○ Compiling /store ...

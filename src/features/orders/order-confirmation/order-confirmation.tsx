@@ -60,6 +60,13 @@ export function OrderConfirmation({ orderId }: OrderConfirmationProps) {
               ))}
             </ul>
 
+            {order.couponCode && (
+              <div className={styles.discountRow}>
+                <span>Coupon {order.couponCode}</span>
+                <span>-{formatPrice(order.discountAmount)}</span>
+              </div>
+            )}
+
             <div className={styles.totalRow}>
               <span className={styles.totalLabel}>Total paid</span>
               <span className={styles.totalAmount}>
