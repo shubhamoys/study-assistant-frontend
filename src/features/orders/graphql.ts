@@ -36,6 +36,19 @@ const ORDER_FIELDS = `
 export const CHECKOUT_MUTATION = gql`
   mutation Checkout($couponCode: String) {
     checkout(couponCode: $couponCode) {
+      orderId
+      requiresPayment
+      razorpayOrderId
+      razorpayKeyId
+      amount
+      currency
+    }
+  }
+`;
+
+export const VERIFY_PAYMENT_MUTATION = gql`
+  mutation VerifyPayment($input: VerifyPaymentInput!) {
+    verifyPayment(input: $input) {
       ${ORDER_FIELDS}
     }
   }
@@ -88,12 +101,36 @@ export interface Order {
   items: OrderItem[];
 }
 
+export interface CheckoutSession {
+  orderId: string;
+  requiresPayment: boolean;
+  razorpayOrderId: string | null;
+  razorpayKeyId: string | null;
+  amount: number;
+  currency: string;
+}
+
 export interface CheckoutMutationData {
-  checkout: Order;
+  checkout: CheckoutSession;
 }
 
 export interface CheckoutMutationVars {
   couponCode?: string;
+}
+
+export interface VerifyPaymentInput {
+  orderId: string;
+  razorpayOrderId: string;
+  razorpayPaymentId: string;
+  razorpaySignature: string;
+}
+
+export interface VerifyPaymentMutationData {
+  verifyPayment: Order;
+}
+
+export interface VerifyPaymentMutationVars {
+  input: VerifyPaymentInput;
 }
 
 export interface OrderQueryData {
