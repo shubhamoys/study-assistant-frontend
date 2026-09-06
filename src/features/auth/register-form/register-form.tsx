@@ -23,7 +23,7 @@ import styles from "../auth-form.module.scss";
 export function RegisterForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  useRedirectIfAuthenticated();
+  useRedirectIfAuthenticated("/library");
 
   const {
     register,
@@ -58,7 +58,7 @@ export function RegisterForm() {
             user: data.register.user,
           }),
         );
-        router.push("/");
+        router.push("/library");
       }
     } catch {
       // Already captured in `error` above (useMutation's reactive state) and

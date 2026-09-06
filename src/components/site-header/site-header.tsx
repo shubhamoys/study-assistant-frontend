@@ -28,7 +28,7 @@ export function SiteHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
-        <Link href="/" className={styles.brand}>
+        <Link href={isAuthenticated ? "/library" : "/"} className={styles.brand}>
           <Logo />
         </Link>
 

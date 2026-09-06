@@ -11,12 +11,25 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1.5rem;
   padding: 2rem 1rem;
   background-image: radial-gradient(
     color-mix(in srgb, var(--ink-primary) 10%, transparent) 1px,
     transparent 1.5px
   );
   background-size: 16px 16px;
+}
+
+// These standalone auth screens have no SiteHeader (see its own doc
+// comment), so this is the only way back to the marketing page short of
+// editing the URL by hand — a small home-linked logo, not a full nav bar.
+.homeLink {
+  display: inline-flex;
+  transition: opacity 0.1s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .card {

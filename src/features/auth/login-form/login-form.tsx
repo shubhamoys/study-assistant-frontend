@@ -31,7 +31,7 @@ export function LoginForm() {
   const redirectTo =
     redirectParam && redirectParam.startsWith("/") && !redirectParam.startsWith("//")
       ? redirectParam
-      : "/";
+      : "/library";
 
   // Single source of truth for "where does a signed-in visitor on this page
   // go": covers both a visitor who was already logged in when they landed
