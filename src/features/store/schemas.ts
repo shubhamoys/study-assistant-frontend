@@ -57,7 +57,7 @@ export type FlashcardFormValues = z.infer<typeof flashcardSchema>;
 // `downloadDeckExport` and read back by its `parseDeckExportFile` — kept
 // here so it's validated the same way as everything else user-supplied.
 export const deckExportFileSchema = z.object({
-  format: z.literal("study-assistant-deck"),
+  format: z.literal("studyloop-deck"),
   version: z.literal(1),
   deck: z.object({
     title: z.string().min(1).max(255),

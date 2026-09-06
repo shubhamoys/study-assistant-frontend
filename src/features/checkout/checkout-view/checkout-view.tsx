@@ -150,7 +150,7 @@ export function CheckoutView() {
         key: session.razorpayKeyId!,
         amount: session.amount,
         currency: session.currency,
-        name: "AI Study Assistant",
+        name: "StudyLoop",
         description: "Deck purchase",
         order_id: session.razorpayOrderId!,
         prefill: {
@@ -195,7 +195,7 @@ export function CheckoutView() {
         {loading && <p className={styles.status}>Loading your cart…</p>}
         {error && (
           <p className={styles.statusError}>
-            Couldn&apos;t load your cart — is the backend running?
+            Couldn&apos;t load your cart. Please check your connection and try again.
           </p>
         )}
 

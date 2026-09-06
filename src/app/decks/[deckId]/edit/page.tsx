@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { EditDeckPage } from "@/features/decks/edit-deck-page/edit-deck-page";
 
 export const metadata: Metadata = {
-  title: "Edit Deck — AI Study Assistant",
+  title: "Edit Deck — StudyLoop",
 };
 
 interface EditDeckRouteProps {

@@ -42,7 +42,7 @@ export function OrdersList() {
         {loading && <p className={styles.status}>Loading your orders…</p>}
         {error && (
           <p className={styles.statusError}>
-            Couldn&apos;t load your orders — is the backend running?
+            Couldn&apos;t load your orders. Please check your connection and try again.
           </p>
         )}
 

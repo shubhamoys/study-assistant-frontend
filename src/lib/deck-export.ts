@@ -4,7 +4,7 @@ import {
 } from "@/features/store/schemas";
 import type { DeckSummary, Flashcard, ImportDeckInput } from "@/features/store/graphql";
 
-const DECK_EXPORT_FORMAT = "study-assistant-deck" as const;
+const DECK_EXPORT_FORMAT = "studyloop-deck" as const;
 const DECK_EXPORT_VERSION = 1 as const;
 
 function slugify(title: string): string {
@@ -84,7 +84,7 @@ export async function parseDeckExportFile(
   if (!result.success) {
     return {
       ok: false,
-      error: "That file isn't a Study Assistant deck export.",
+      error: "That file isn't a StudyLoop deck export.",
     };
   }
 

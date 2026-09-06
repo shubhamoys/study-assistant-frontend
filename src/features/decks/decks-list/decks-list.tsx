@@ -36,7 +36,10 @@ export function DecksList() {
   const [importDeck] = useMutation<
     ImportDeckMutationData,
     ImportDeckMutationVars
-  >(IMPORT_DECK_MUTATION);
+  >(IMPORT_DECK_MUTATION, {
+    // Same reasoning as CREATE_DECK_MUTATION's refetchQueries in deck-form.tsx.
+    refetchQueries: [{ query: MY_DECKS_QUERY }],
+  });
   const importInputRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
@@ -130,7 +133,7 @@ export function DecksList() {
         {loading && <p className={styles.status}>Loading your decks…</p>}
         {error && (
           <p className={styles.statusError}>
-            Couldn&apos;t load your decks — is the backend running?
+            Couldn&apos;t load your decks. Please check your connection and try again.
           </p>
         )}
 

@@ -150,7 +150,7 @@ export function StoreBrowser() {
         {decksLoading && <p className={styles.status}>Loading decks…</p>}
         {decksError && (
           <p className={styles.statusError}>
-            Couldn&apos;t load decks — is the backend running?
+            Couldn&apos;t load decks. Please check your connection and try again.
           </p>
         )}
         {decksData && decksData.decks.length === 0 && (

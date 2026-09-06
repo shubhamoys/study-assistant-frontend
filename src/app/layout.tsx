@@ -28,7 +28,7 @@ const fragmentMono = Fragment_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Study Assistant",
+  title: "StudyLoop",
   description:
     "A spaced-repetition flashcard platform for retaining what you study.",
 };

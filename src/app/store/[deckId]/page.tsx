@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { DeckDetail } from "@/features/store/deck-detail/deck-detail";
 
 export const metadata: Metadata = {
-  title: "Deck — AI Study Assistant",
+  title: "Deck — StudyLoop",
 };
 
 interface DeckPageProps {

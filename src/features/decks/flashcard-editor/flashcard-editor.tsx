@@ -11,6 +11,7 @@ import {
   CREATE_FLASHCARD_MUTATION,
   DECK_FLASHCARDS_QUERY,
   DELETE_FLASHCARD_MUTATION,
+  MY_DECKS_QUERY,
   UPDATE_FLASHCARD_MUTATION,
   type CreateFlashcardMutationData,
   type CreateFlashcardMutationVars,
@@ -50,7 +51,12 @@ export function FlashcardEditor({ deckId }: FlashcardEditorProps) {
   const [deleteFlashcard, { loading: deleting }] = useMutation<
     DeleteFlashcardMutationData,
     DeleteFlashcardMutationVars
-  >(DELETE_FLASHCARD_MUTATION);
+  >(DELETE_FLASHCARD_MUTATION, {
+    // My Decks shows each deck's card count — without this it goes stale
+    // the same way the deck list itself did before create/importDeck got
+    // refetchQueries (see deck-form.tsx/decks-list.tsx).
+    refetchQueries: [{ query: MY_DECKS_QUERY }],
+  });
 
   function closeForm() {
     setEditingId(null);
@@ -195,7 +201,11 @@ function FlashcardForm({ deckId, flashcard, onSaved, onCancel }: FlashcardFormPr
   const [createFlashcard, { error: createError }] = useMutation<
     CreateFlashcardMutationData,
     CreateFlashcardMutationVars
-  >(CREATE_FLASHCARD_MUTATION);
+  >(CREATE_FLASHCARD_MUTATION, {
+    // Same reasoning as the parent's deleteFlashcard — keeps My Decks' card
+    // count from going stale.
+    refetchQueries: [{ query: MY_DECKS_QUERY }],
+  });
   const [updateFlashcard, { error: updateError }] = useMutation<
     UpdateFlashcardMutationData,
     UpdateFlashcardMutationVars

@@ -4,7 +4,7 @@ import { VerifyEmailStatus } from "@/features/auth/verify-email-status/verify-em
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {
-  title: "Verify email — AI Study Assistant",
+  title: "Verify email — StudyLoop",
 };
 
 export default function VerifyEmailPage() {

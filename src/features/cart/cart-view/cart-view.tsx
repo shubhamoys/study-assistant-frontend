@@ -38,7 +38,7 @@ export function CartView() {
         {loading && <p className={styles.status}>Loading your cart…</p>}
         {error && (
           <p className={styles.statusError}>
-            Couldn&apos;t load your cart — is the backend running?
+            Couldn&apos;t load your cart. Please check your connection and try again.
           </p>
         )}
 

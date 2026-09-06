@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { CreateDeckPage } from "@/features/decks/create-deck-page/create-deck-page";
 
 export const metadata: Metadata = {
-  title: "Create Deck — AI Study Assistant",
+  title: "Create Deck — StudyLoop",
 };
 
 export default function NewDeckPage() {

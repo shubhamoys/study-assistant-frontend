@@ -4,7 +4,7 @@ import { LoginForm } from "@/features/auth/login-form/login-form";
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {
-  title: "Log in — AI Study Assistant",
+  title: "Log in — StudyLoop",
 };
 
 export default function LoginPage() {

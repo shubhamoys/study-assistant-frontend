@@ -142,7 +142,7 @@ export function LibraryBrowser() {
         {loading && <p className={styles.status}>Loading your library…</p>}
         {error && (
           <p className={styles.statusError}>
-            Couldn&apos;t load your library — is the backend running?
+            Couldn&apos;t load your library. Please check your connection and try again.
           </p>
         )}
 

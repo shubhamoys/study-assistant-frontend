@@ -17,33 +17,13 @@
 }
 
 .brand {
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-style: italic;
-  font-size: 1.0625rem;
-  color: var(--ink-primary);
-  white-space: nowrap;
-  transition: color 0.1s ease;
+  transition: opacity 0.1s ease;
 
   &:hover {
-    color: var(--brand-primary);
-  }
-}
-
-.brandShort {
-  display: none;
-}
-
-// Same swap logic runs on every page, so this never causes the
-// route-dependent layout shift the fixed-content stamp used to.
-@media (max-width: 30rem) {
-  .brandFull {
-    display: none;
-  }
-
-  .brandShort {
-    display: inline;
+    opacity: 0.8;
   }
 }
 

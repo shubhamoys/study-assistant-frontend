@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { OrderConfirmation } from "@/features/orders/order-confirmation/order-confirmation";
 
 export const metadata: Metadata = {
-  title: "Order — AI Study Assistant",
+  title: "Order — StudyLoop",
 };
 
 interface OrderPageProps {

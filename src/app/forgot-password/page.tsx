@@ -3,7 +3,7 @@ import { ForgotPasswordForm } from "@/features/auth/forgot-password-form/forgot-
 import styles from "@/features/auth/auth-form.module.scss";
 
 export const metadata: Metadata = {
-  title: "Forgot password — AI Study Assistant",
+  title: "Forgot password — StudyLoop",
 };
 
 export default function ForgotPasswordPage() {

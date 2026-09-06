@@ -15,6 +15,7 @@ import { uploadAttachment } from "@/lib/upload-attachment";
 import {
   CATEGORIES_QUERY,
   CREATE_DECK_MUTATION,
+  MY_DECKS_QUERY,
   UPDATE_DECK_MUTATION,
   type CategoriesQueryData,
   type CreateDeckMutationData,
@@ -72,7 +73,13 @@ export function DeckForm({ mode, deckId, initial }: DeckFormProps) {
   const [createDeck, { error: createError }] = useMutation<
     CreateDeckMutationData,
     CreateDeckMutationVars
-  >(CREATE_DECK_MUTATION);
+  >(CREATE_DECK_MUTATION, {
+    // Without this, My Decks (cache-first) keeps showing its stale list
+    // until something else forces a real network fetch — a full page
+    // reload builds a fresh Apollo cache, which is why refreshing "fixes"
+    // it; navigating there normally otherwise never re-fetches on its own.
+    refetchQueries: [{ query: MY_DECKS_QUERY }],
+  });
   const [updateDeck, { error: updateError }] = useMutation<
     UpdateDeckMutationData,
     UpdateDeckMutationVars

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/logo/logo";
 import { ThemeToggle } from "@/components/theme-toggle/theme-toggle";
 import { MainNav } from "@/components/main-nav/main-nav";
 import { MobileNavDrawer } from "@/components/mobile-nav-drawer/mobile-nav-drawer";
@@ -28,8 +29,7 @@ export function SiteHeader() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <Link href="/" className={styles.brand}>
-          <span className={styles.brandFull}>AI Study Assistant</span>
-          <span className={styles.brandShort}>Study Assistant</span>
+          <Logo />
         </Link>
 
         <div className={styles.desktopNav}>
