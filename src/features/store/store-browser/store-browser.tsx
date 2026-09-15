@@ -12,6 +12,7 @@ import { MY_LIBRARY_QUERY, type MyLibraryQueryData } from "@/features/library/gr
 import { AddToCartButton } from "@/features/cart/add-to-cart-button/add-to-cart-button";
 import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
 import { DeckCard } from "../deck-card/deck-card";
+import { OwnedBadge } from "../owned-badge/owned-badge";
 import {
   CATEGORIES_QUERY,
   DECKS_QUERY,
@@ -168,6 +169,8 @@ export function StoreBrowser() {
                     deckId={deck.id}
                     inLibrary={libraryDeckIds.has(deck.id)}
                   />
+                ) : libraryDeckIds.has(deck.id) ? (
+                  <OwnedBadge />
                 ) : (
                   <AddToCartButton
                     deckId={deck.id}

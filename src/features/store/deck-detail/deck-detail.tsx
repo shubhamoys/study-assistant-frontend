@@ -14,6 +14,7 @@ import { AddToCartButton } from "@/features/cart/add-to-cart-button/add-to-cart-
 import { MY_CART_QUERY, type MyCartQueryData } from "@/features/cart/graphql";
 import { formatPrice } from "@/lib/format-price";
 import { DeckReviews } from "../deck-reviews/deck-reviews";
+import { OwnedBadge } from "../owned-badge/owned-badge";
 import { DECK_QUERY, type DeckQueryData, type DeckQueryVars } from "../graphql";
 import styles from "./deck-detail.module.scss";
 
@@ -130,6 +131,8 @@ export function DeckDetail({ deckId }: DeckDetailProps) {
                     deckId={data.deck.id}
                     inLibrary={inLibrary}
                   />
+                ) : inLibrary ? (
+                  <OwnedBadge />
                 ) : (
                   <AddToCartButton deckId={data.deck.id} inCart={inCart} />
                 )}
