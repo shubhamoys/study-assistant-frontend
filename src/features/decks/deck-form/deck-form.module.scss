@@ -1,0 +1,21 @@
+.submitButton {
+  align-self: flex-start;
+}
+
+.coverRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.coverPreview {
+  width: 4rem;
+  height: 4rem;
+  object-fit: cover;
+  border: 2px solid var(--ink-primary);
+  border-radius: var(--radius-btn);
+}
+
+.hiddenInput {
+  display: none;
+}

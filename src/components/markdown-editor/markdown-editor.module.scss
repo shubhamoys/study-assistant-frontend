@@ -1,0 +1,18 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+
+  // Match the app's Input/Textarea border treatment as closely as a
+  // third-party editor's own internal styling allows.
+  :global(.w-md-editor) {
+    border: 3px solid var(--ink-primary);
+    border-radius: var(--radius-btn);
+    box-shadow: none;
+  }
+}
+
+.error {
+  font-size: 0.8125rem;
+  color: var(--state-error);
+}

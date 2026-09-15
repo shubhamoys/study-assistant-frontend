@@ -1,0 +1,122 @@
+// Full-width outer wrapper, same max-width/padding as SiteHeader's .inner
+// (and every other page) so this page's content lines up with the header
+// above it — .content below is what actually stays narrow for readability,
+// centered within this wider wrapper rather than left-aligned to it.
+.page {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  // justify-content: center;
+  gap: 2rem;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+.deckRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.backLink {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+
+  &:hover {
+    color: var(--ink-primary);
+  }
+}
+
+.deckTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink-primary);
+}
+
+.status {
+  font-size: 0.875rem;
+  color: var(--ink-secondary);
+}
+
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border: 2px solid var(--state-error);
+  border-radius: var(--radius-btn);
+  background: var(--state-error-bg);
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--state-error);
+}
+
+.errorBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid var(--state-error);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 2.5rem 2rem;
+}
+
+.emptyHeadline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--ink-primary);
+}
+
+.emptyBody {
+  margin: 0;
+  color: var(--ink-secondary);
+}
+
+.emptyLink {
+  margin-top: 0.5rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.studyArea {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.showAnswerButton {
+  width: 100%;
+}

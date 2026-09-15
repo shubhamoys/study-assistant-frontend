@@ -1,0 +1,64 @@
+.content {
+  gap: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0 1rem 1.5rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0.75rem 0.875rem;
+  border-radius: var(--radius-btn);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color 0.1s ease,
+    background 0.1s ease;
+
+  &:hover {
+    color: var(--ink-primary);
+    background: var(--bg-page);
+  }
+}
+
+.itemActive {
+  color: var(--brand-primary);
+  background: var(--state-info-bg);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  color: var(--brand-on-primary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.separator {
+  height: 2px;
+  margin: 0.5rem 0.875rem;
+  background: var(--ink-tertiary);
+  opacity: 0.3;
+}

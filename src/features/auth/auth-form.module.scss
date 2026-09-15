@@ -1,0 +1,190 @@
+// Field Notes Brutalism auth screens (UI_UX_DESIGN.md). The card surface
+// itself reuses the global .index-card class (globals.css) — these rules
+// only cover layout/typography specific to the register/login forms.
+
+.page {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--ink-primary) 10%, transparent) 1px,
+    transparent 1.5px
+  );
+  background-size: 16px 16px;
+}
+
+// These standalone auth screens have no SiteHeader (see its own doc
+// comment), so this is the only way back to the marketing page short of
+// editing the URL by hand — a small home-linked logo, not a full nav bar.
+.homeLink {
+  display: inline-flex;
+  transition: opacity 0.1s ease;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 26rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-style: italic;
+  font-size: 1.875rem;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--ink-primary);
+}
+
+.subheading {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--ink-secondary);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+.fieldLabelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.inlineLink {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.fieldError {
+  font-size: 0.75rem;
+  color: var(--state-error);
+}
+
+.formError {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border: 2px solid var(--state-error);
+  border-radius: var(--radius-btn);
+  background: var(--state-error-bg);
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--state-error);
+}
+
+.formErrorBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px dashed var(--state-error);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  transform: rotate(-4deg);
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.formNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border: 2px solid var(--state-info);
+  border-radius: var(--radius-btn);
+  background: var(--state-info-bg);
+  padding: 0.75rem 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--state-info);
+}
+
+.formNoticeBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px dashed var(--state-info);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.7rem;
+  transform: rotate(-4deg);
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--ink-secondary);
+}
+
+.footerLink {
+  color: var(--brand-primary);
+  font-weight: 600;
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,39 @@
+.wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.filled {
+  color: var(--brand-yellow);
+}
+
+.empty {
+  color: var(--ink-tertiary);
+}
+
+.count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-tertiary);
+}
+
+.starButton {
+  display: inline-flex;
+  border: none;
+  background: none;
+  padding: 0.125rem;
+  cursor: pointer;
+  line-height: 0;
+
+  &:hover .filled,
+  &:hover .empty {
+    transform: scale(1.1);
+  }
+}
